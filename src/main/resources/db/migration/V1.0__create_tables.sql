@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS ESCUELADB.ALUMNOS;
+DROP SEQUENCE IF EXISTS ESCUELADB.ID_SEQUENCE;
+CREATE SEQUENCE ESCUELADB.ID_SEQUENCE START WITH 1000 INCREMENT BY 1;
+
+CREATE TABLE ESCUELADB.ALUMNOS (
+                                   ID       BIGINT       NOT NULL,
+                                   NOMBRE   VARCHAR(100) NOT NULL,
+                                   APELLIDO VARCHAR(100) NOT NULL,
+                                   EDAD     INT          NOT NULL,
+                                   CLASE    VARCHAR(100) NOT NULL,
+                                   PRIMARY KEY (ID)
+);

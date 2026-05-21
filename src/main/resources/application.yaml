@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: machado
+  flyway:
+    enabled: true
+    schemas: ESCUELADB
+    default-schema: ESCUELADB   # 👈 añadir esto
+    url: jdbc:h2:mem:ESCUELADB;DB_CLOSE_DELAY=-1
+    user: sa
+    password: ''
+    locations: classpath:/db/migration
+  datasource:
+    driverClassName: org.h2.Driver
+    password: ''
+    username: sa
+    url: jdbc:h2:mem:ESCUELADB;DB_CLOSE_DELAY=-1;MODE=LEGACY;INIT=CREATE SCHEMA IF NOT EXISTS ESCUELADB\;SET SCHEMA ESCUELADB
+  h2:
+    console:
+      path: /h2
+      enabled: 'true'
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: 'true'
+    properties:
+      hibernate:
+        default_schema: escueladb
+        format_sql: 'true'
+    database-platform: org.hibernate.dialect.H2Dialect
+
