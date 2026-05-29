@@ -3,15 +3,23 @@ package com.colegio.machado.repositories.mappers;
 import com.colegio.machado.repositories.entities.AlumnoEntity;
 import com.colegio.machado.services.model.Alumno;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface AlumnoEntityMapper {
-    //@Mapping(source = "name", target = "nombreDelChaval")
+
+    @Mapping(target = "clase", ignore = true)
+    Alumno toModel(AlumnoEntity entity);
+
+    @Mapping(target = "clase", ignore = true)
     AlumnoEntity toEntity(Alumno alumno);
-    Alumno toModel(AlumnoEntity alumnoEntity);
+    
+    void updateEntity(Alumno alumno, @MappingTarget AlumnoEntity alumnoEntity);
 
     List<AlumnoEntity> mapEntity(List<Alumno> alumnos);
+
     List<Alumno> mapModel(List<AlumnoEntity> alumnosEntity);
 }
