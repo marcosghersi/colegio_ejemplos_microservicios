@@ -18,6 +18,6 @@ public class Alumno {
 
     private Integer edad;
 
-    private String clase;
+    private Clase clase;
 
 }

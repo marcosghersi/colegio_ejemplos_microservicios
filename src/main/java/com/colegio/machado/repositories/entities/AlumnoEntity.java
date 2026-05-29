@@ -29,6 +29,8 @@ public class AlumnoEntity {
     private String apellido;
     @Column
     private Integer edad;
-    @Column
-    private String clase;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn (name = "clase_id")
+    private ClaseEntity clase;
 }

@@ -1,6 +1,7 @@
 package com.colegio.machado.controllers;
 
 import com.colegio.machado.controllers.dto.AlumnoDTO;
+import com.colegio.machado.controllers.dto.AlumnoRequestDTO;
 import com.colegio.machado.controllers.mappers.AlumnoDTOMapper;
 import com.colegio.machado.services.AlumnosService;
 import com.colegio.machado.services.model.Alumno;
@@ -31,16 +32,41 @@ public class AlumnosController {
         return ResponseEntity.ok(alumnoDTOList);
     }
 
-    //@GetMapping("/{id}")
-    @GetMapping("/alumno")
-    public ResponseEntity<AlumnoDTO> getAlumnoByID(@RequestParam Long id){
+    @GetMapping("/{id}")
+    //@GetMapping("/alumno")
+    public ResponseEntity<AlumnoDTO> getAlumnoByID(@PathVariable Long id){
         return ResponseEntity.ok(alumnoDTOMapper.toDTO(alumnosService.getAlumnoById(id)));
     }
+
+
     @PostMapping
-    public ResponseEntity<String> guardaAlumno(@RequestBody AlumnoDTO alumnoDTO){
-        alumnosService.guardarAlumno(alumnoDTOMapper.toModel(alumnoDTO));
-        return ResponseEntity.created(URI.create("http://algo.es")).body("Creado");
+    public ResponseEntity<AlumnoDTO> guardarAlumno(@RequestBody AlumnoRequestDTO request){
+        // DTO → Modelo
+        Alumno alumno = alumnoDTOMapper.toModel(request);
+        // Guardar con idClase
+        Alumno guardado = alumnosService.guardarAlumno(alumno, request.idClase());
+        // Modelo → DTO
+        AlumnoDTO response = alumnoDTOMapper.toDTO(guardado);
+        return ResponseEntity
+                .created(URI.create("/alumnos/" + response.id()))
+                .body(response);
     }
 
+    @PutMapping ("/{id}")
+    public ResponseEntity<AlumnoDTO> actualizarAlumno(@PathVariable Long id, @RequestBody AlumnoRequestDTO request) {
+
+        Alumno alumno = alumnoDTOMapper.toModel(request);
+
+        Alumno actualizado = alumnosService.actualizarAlumno(id, alumno, request.idClase());
+
+        AlumnoDTO response = alumnoDTOMapper.toDTO(actualizado);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping ("/{id}")
+    public void eliminarAlumno(@PathVariable Long id){
+        alumnosService.eliminarAlumno(id);
+    }
 
 }
